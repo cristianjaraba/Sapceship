@@ -1,11 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Spaceship</title>
+
+    <link rel="stylesheet" href="style.css">
+
 </head>
-<body>
+
+<body onload="rendereStatus()">
+    <h1>Spaceship</h1>
+    <div class="table-container">
+        <table>
+            <tr>
+            <th>Raumschiffsname:</th>
+            <td id="data-name">________</td>
+        </tr>
+        <tr>
+            <th>Leben:</th>
+            <td id="data-life">0</td>
+        </tr>
+        <tr>
+            <th>Gold:</th>
+            <td id="data-gold">0</td>
+        </tr>
+        <tr>
+            <th>Reparatursets:</th>
+            <td id="data-reparatursets">0</td>
+        </tr>
+        <tr>
+            <th>Invetnar:</th>
+            <td id="data-inventar"></td>
+        </tr>
+        </table>
+        <button onclick="rendereStatus()">Rendere Status</button>
+    </div>
+    <div class="functions-container">
+        <div class="function">
+            <input id="damage" type="number">
+            <button onclick="takeDamage()">Schaden hinzufügen</button>
+        </div>
+        <div class="function">
+            <input id="total" type="number" >
+        <button onclick="buyRepairKit()">Reparaturset kaufen</button>
+        </div>
+        <div class="function">
+            <input type="text">
+        <button onclick="useRepairKit()">Reparaturset benutzen</button>
+        </div>
+        <div class="function">
+            <input id="schild" type="number">
+        <button onclick="buySchild()">Schild kaufen</button>
+        </div>
+    </div>
     
+        <textarea id="error-reporter" rows="2" cols="30"></textarea>
+    
+    <script src="./script.js"></script>
 </body>
+
 </html>
