@@ -23,10 +23,11 @@ function rendereStatus() {
     reparaturSetsdRef.innerText = repairKits;
     inventarRef.innerHTML = "";
 
-    for (let index = 0; index < inventar.length; index++) {
+    // for (let index = 0; index < inventar.length; index++) {
 
-        inventarRef.innerHTML += inventar[index];
-    }
+    //     inventarRef.innerHTML += inventar[index];
+    // }
+    inventarRef.innerHTML = inventar.join(", ") + ".";
 }
 
 function takeDamage() {
@@ -56,7 +57,7 @@ function buyRepairKit() {
         repairKits += Number(totalRef.value);
 
         for (let index = Number(totalRef.value); index > 0; index--) {
-            inventar.push("Reparaturset ");
+            inventar.push("Reparaturset");
         }
 
     }
@@ -69,9 +70,9 @@ function buyRepairKit() {
 
 function useRepairKit() {
 
-    if (inventar.includes("Reparaturset ")) {
+    if (inventar.includes("Reparaturset")) {
         repairKits -= 1;
-        inventar.splice(inventar.indexOf("Reparaturset "), 1);
+        inventar.splice(inventar.indexOf("Reparaturset"), 1);
     } else {
         errorReporterRef.value = 'Du hast nicht genug Reparaturset.';
     }
@@ -86,7 +87,7 @@ function buySchild() {
     }
     if (gold >= amount) {
         for (let index = amount; index > 0; index--) {
-            inventar.push("Schild ");
+            inventar.push("Schild");
             gold -= 1;
         }
     }
