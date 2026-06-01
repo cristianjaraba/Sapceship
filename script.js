@@ -41,7 +41,9 @@ function rendereStatus() {
     lifeRef.innerText = spaceShip.life;
     goldRef.innerText = spaceShip.gold;
     reparaturSetsdRef.innerText = spaceShip.repairKits;
-    inventarRef.innerHTML = spaceShip.inventar.join(", ") + ".";
+    if (spaceShip.inventar.length > 0) {
+        inventarRef.innerHTML = spaceShip.inventar.join(", ") + ".";
+    }
     rendereEnemyStatus();
 }
 function rendereEnemyStatus() {
@@ -77,10 +79,22 @@ function getProtectionsUsages(spaceshipDamageBeforeSchild, protections) {
 
 function createNewEnemy() {
     let enemyNames = ["Mr X", "Banenen Mixer II", "The Enemy"];
-    let enemyRandomName = enemyNames[Math.floor((Math.random() * enemyNames.length))];
-    return {
-        "enemyName": enemyRandomName,
-        "life": 5
+    if (enemy.life <= 0) {
+        let enemyRandomName = enemyNames[Math.floor((Math.random() * enemyNames.length))];
+        enemy= {
+            "enemyName": enemyRandomName,
+            "life": 5
+        }
+        reporterRef.value = `Neuer Gegner erstellt:
+
+Name: ${enemy.enemyName}
+
+Leben: ${enemy.life}`;
+    rendereEnemyStatus();
+    enemyLifeRef.classList.remove("game-over");
+    }
+    else{
+        reporterRef.value = `Dein Gegner ${enemy.enemyName} hat noch ${enemy.life} Leben.`
     }
 }
 
@@ -91,23 +105,23 @@ function generateRandomGoldAmount() {
 }
 
 function showMessageAfterDamage(spaceshipDamageBeforeSchild, protections, spaceshipDamageAfterSchild, protectionUsages, enemyDamage) {
-    reporterRef.value += `${enemy.enemyName} wollte ${spaceShip.spaceshipName} erstmal ${spaceshipDamageBeforeSchild} Leben nehmmen.
-            ${spaceShip.spaceshipName} hatte ${protections} Schild(er) und deswegen wurden ihm ${spaceshipDamageAfterSchild} Leben genommen.
-        ${spaceShip.spaceshipName} hat ${protectionUsages} Schild(er) benutzt.`;
-    reporterRef.value += `\n${enemy.enemyName} wurde(n) ${enemyDamage} Leben genommen.`;
+    reporterRef.value += `${enemy.enemyName} wollte ${spaceShip.spaceshipName} erstmal ${spaceshipDamageBeforeSchild} Leben nehmmen. 
+
+${spaceShip.spaceshipName} hatte ${protections} Schild(er) und deswegen wurden ihm ${spaceshipDamageAfterSchild} Leben genommen.
+
+${spaceShip.spaceshipName} hat ${protectionUsages} Schild(er) benutzt.`;
+    reporterRef.value += `\n\n${enemy.enemyName} wurde(n) ${enemyDamage} Leben genommen.`;
     if (enemy.life <= 0) {
         enemy.life = 0;
-        // enemyLifeRef.classList.add("game-over");
-        reporterRef.value += '\nGAME OVER für den Genger.';
-        enemy = createNewEnemy();
-        rendereEnemyStatus();
+        enemyLifeRef.classList.add("game-over");
+        reporterRef.value += '\n\nGAME OVER für den Genger.';
         generateRandomGoldAmount();
 
     }
     if (spaceShip.life <= 0) {
         spaceShip.life = 0;
         lifeRef.classList.add("game-over");
-        reporterRef.value += '\nGAME OVER für das Spacheship.';
+        reporterRef.value += '\n\nGAME OVER für das Spacheship.';
         disableButtons();
     }
 }

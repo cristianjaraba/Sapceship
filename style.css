@@ -28,11 +28,12 @@ body{
     align-items: center;
 }
 
-table, th, td {
-  border: 1px solid green;
+table, th {
+  border: 2px solid green;
 }
 td {
     vertical-align: unset;
+    /* height: 5px; */
 }
 .table-container{
     display: flex;
@@ -65,7 +66,6 @@ table, input, textarea{
 textarea{
     padding-top: 5px;
     padding-left: 5px;
-    text-align: center;
 }
 .functions-container{
     display: flex;
