@@ -16,6 +16,7 @@ box-shadow: 0px 2px 2px rgba(1, 6, 19, 0.05),
 }
 #reporter{
     font-family: "Press Start 2P", monospace;
+    font-weight: bold;
 }
 body{
     margin-top: 10px;
@@ -64,6 +65,7 @@ table, input, textarea{
 textarea{
     padding-top: 5px;
     padding-left: 5px;
+    text-align: center;
 }
 .functions-container{
     display: flex;

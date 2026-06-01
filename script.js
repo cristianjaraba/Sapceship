@@ -1,11 +1,11 @@
 /* Variablen */
 
 let spaceShip = {
-   "spaceshipName" : "Space Banana",
-   "life" : 5,
-   "gold" : 5,
-   "repairKits" : 0,
-   "inventar" : [] 
+    "spaceshipName": "Space Banana",
+    "life": 5,
+    "gold": 5,
+    "repairKits": 0,
+    "inventar": []
 }
 
 let enemy = {
@@ -31,7 +31,7 @@ function saveToLocalStorage() {
     reporterRef.value = "Spaceship im LocalStorage gespeichert.";
 }
 
-function getFromLocalStorage(){
+function getFromLocalStorage() {
     spaceShip = JSON.parse(localStorage.getItem("mySpaceship"));
     reporterRef.value = "Spaceship aus dem LocalStorage geladen.";
 }
@@ -49,19 +49,71 @@ function rendereEnemyStatus() {
     enemyLifeRef.innerText = enemy.life;
 }
 
+function getProtections() {
+    let protections = 0;
+    for (let index = 0; index < spaceShip.inventar.length; index++) {
+        if (spaceShip.inventar[index] == "Schild") {
+            protections++;
+        }
+    }
+    return protections;
+}
+
+function getProtectionsUsages(spaceshipDamageBeforeSchild, protections) {
+    let protectionUsages = 0;
+    if (spaceshipDamageBeforeSchild >= protections) {
+        protectionUsages = protections;
+    }
+    else {
+        protectionUsages = spaceshipDamageBeforeSchild;
+    }
+    if (protectionUsages > 0) {
+        for (let index = protectionUsages; index > 0; index--) {
+            spaceShip.inventar.splice(spaceShip.inventar.indexOf("Schild"), 1);
+        }
+    }
+    return protectionUsages;
+}
+
+function showMessageAfterDamage(spaceshipDamageBeforeSchild, protections, spaceshipDamageAfterSchild, protectionUsages, enemyDamage) {
+            reporterRef.value += `${enemy.enemyName} wollte ${spaceShip.spaceshipName} erstmal ${spaceshipDamageBeforeSchild} Leben nehmmen.
+            ${spaceShip.spaceshipName} hatte ${protections} Schild(er) und deswegen wurden ihm ${spaceshipDamageAfterSchild} Leben genommen.
+        ${spaceShip.spaceshipName} hat ${protectionUsages} Schild(er) benutzt.`;
+            reporterRef.value += `\n${enemy.enemyName} wurde(n) ${enemyDamage} Leben genommen.`;
+            if (enemy.life <= 0) {
+                enemy.life = 0;
+                enemyLifeRef.classList.add("game-over");
+                reporterRef.value += '\nGAME OVER für den Genger.';
+            }
+            if (spaceShip.life <= 0) {
+                spaceShip.life = 0;
+                lifeRef.classList.add("game-over");
+                reporterRef.value += '\nGAME OVER für das Spacheship.';
+            }
+        }
+
 function takeDamage() {
+    reporterRef.value = '';
     const damageRef = document.getElementById("damage");
     if (damageRef.value < 0) {
-        ReporterRef.value = 'Ungültige Angabe.';
+        reporterRef.value = 'Ungültige Angabe.';
         return;
     }
     else {
-        spaceShip.life = spaceShip.life - Number(damageRef.value);
-        if (spaceShip.life <= 0) {
-            spaceShip.lifeRef.classList.add("game-over");
-            reporterRef.value = 'GAME OVER';
+        let enemyDamage = Number(damageRef.value);
+        let spaceshipDamageBeforeSchild = Math.floor((Math.random() * 4) + 1);
+        let protections = getProtections();//prüft ob das Spaceshift Schilder hat
+        let protectionUsages = getProtectionsUsages(spaceshipDamageBeforeSchild, protections);//berechnet die Schilder, die benutzt werden sollen und
+                                                      //substrahiert die Menge aus dem Inventar
+        let spaceshipDamageAfterSchild = spaceshipDamageBeforeSchild - protections;
+        if (spaceshipDamageAfterSchild < 0) {
+            spaceshipDamageAfterSchild = 0;
         }
+        enemy.life = enemy.life - enemyDamage;
+        spaceShip.life = spaceShip.life - spaceshipDamageAfterSchild;
+        showMessageAfterDamage(spaceshipDamageBeforeSchild, protections, spaceshipDamageAfterSchild, protectionUsages, enemyDamage);
     }
+    rendereEnemyStatus();
     rendereStatus();
 }
 
