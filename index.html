@@ -35,7 +35,11 @@
             <td id="data-inventar"></td>
         </tr>
         </table>
-        <button onclick="rendereStatus()">Rendere Status</button>
+        <div class="buttons_container">
+            <button onclick="saveToLocalStorage()">Speichern</button>
+            <button onclick="getFromLocalStorage()">Laden</button>
+            <button onclick="rendereStatus()">Rendere Status</button>
+        </div>
     </div>
     <div class="functions-container">
         <div class="function">
@@ -56,7 +60,7 @@
         </div>
     </div>
     
-        <textarea id="error-reporter" rows="2" cols="30"></textarea>
+        <textarea id="reporter" rows="2" cols="30"></textarea>
     
     <script src="./script.js"></script>
 </body>

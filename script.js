@@ -1,11 +1,11 @@
 /* Variablen */
 
 let spaceShip = {
-   spaceshipName : "Space Banana",
-   life : 5,
-   gold : 5,
-   repairKits : 0,
-   inventar : [] 
+   "spaceshipName" : "Space Banana",
+   "life" : 5,
+   "gold" : 5,
+   "repairKits" : 0,
+   "inventar" : [] 
 }
 
 /* Funktionen */
@@ -14,9 +14,19 @@ const nameRef = document.getElementById("data-name");
 const lifeRef = document.getElementById("data-life");
 const goldRef = document.getElementById("data-gold");
 const reparaturSetsdRef = document.getElementById("data-reparatursets");
-const errorReporterRef = document.getElementById("error-reporter");
+const reporterRef = document.getElementById("reporter");
 const schildRef = document.getElementById("schild");
 const inventarRef = document.getElementById("data-inventar");
+
+function saveToLocalStorage() {
+    localStorage.setItem("mySpaceship", JSON.stringify(spaceShip));
+    reporterRef.value = "Spaceship im LocalStorage gespeichert.";
+}
+
+function getFromLocalStorage(){
+    spaceShip = JSON.parse(localStorage.getItem("mySpaceship"));
+    reporterRef.value = "Spaceship aus dem LocalStorage geladen.";
+}
 
 function rendereStatus() {
     nameRef.innerText = spaceShip.spaceshipName;
@@ -29,14 +39,14 @@ function rendereStatus() {
 function takeDamage() {
     const damageRef = document.getElementById("damage");
     if (damageRef.value < 0) {
-        errorReporterRef.value = 'Ungültige Angabe.';
+        ReporterRef.value = 'Ungültige Angabe.';
         return;
     }
     else {
         spaceShip.life = spaceShip.life - Number(damageRef.value);
         if (spaceShip.life <= 0) {
             spaceShip.lifeRef.classList.add("game-over");
-            errorReporterRef.value = 'GAME OVER';
+            reporterRef.value = 'GAME OVER';
         }
     }
     rendereStatus();
@@ -45,7 +55,7 @@ function takeDamage() {
 function buyRepairKit() {
     const totalRef = document.getElementById("total");
     if (totalRef.value < 0) {
-        errorReporterRef.value = 'Ungültige Angabe.';
+        reporterRef.value = 'Ungültige Angabe.';
         return;
     }
     if (spaceShip.gold >= totalRef.value) {
@@ -58,7 +68,7 @@ function buyRepairKit() {
 
     }
     else {
-        errorReporterRef.value = 'Du hast nicht genug Geld.';
+        reporterRef.value = 'Du hast nicht genug Geld.';
     }
     rendereStatus();
 
@@ -70,7 +80,7 @@ function useRepairKit() {
         spaceShip.repairKits -= 1;
         spaceShip.inventar.splice(spaceShip.inventar.indexOf("Reparaturset"), 1);
     } else {
-        errorReporterRef.value = 'Du hast nicht genug Reparaturset.';
+        reporterRef.value = 'Du hast nicht genug Reparaturset.';
     }
     rendereStatus();
 }
@@ -78,7 +88,7 @@ function useRepairKit() {
 function buySchild() {
     let amount = schildRef.value;
     if (schildRef.value < 0) {
-        errorReporterRef.value = 'Ungültige Angabe.';
+        reporterRef.value = 'Ungültige Angabe.';
         return;
     }
     if (spaceShip.gold >= amount) {
@@ -88,7 +98,7 @@ function buySchild() {
         }
     }
     else {
-        errorReporterRef.value = 'Du hast nicht genug Geld.';
+        reporterRef.value = 'Du hast nicht genug Geld.';
     }
 
     rendereStatus();
