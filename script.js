@@ -1,10 +1,12 @@
 /* Variablen */
 
-const spaceshipName = "Space Banana";
-let life = 5;
-let gold = 5;
-let repairKits = 0;
-const inventar = [];
+let spaceShip = {
+   spaceshipName : "Space Banana",
+   life : 5,
+   gold : 5,
+   repairKits : 0,
+   inventar : [] 
+}
 
 /* Funktionen */
 
@@ -17,17 +19,11 @@ const schildRef = document.getElementById("schild");
 const inventarRef = document.getElementById("data-inventar");
 
 function rendereStatus() {
-    nameRef.innerText = spaceshipName;
-    lifeRef.innerText = life;
-    goldRef.innerText = gold;
-    reparaturSetsdRef.innerText = repairKits;
-    inventarRef.innerHTML = "";
-
-    // for (let index = 0; index < inventar.length; index++) {
-
-    //     inventarRef.innerHTML += inventar[index];
-    // }
-    inventarRef.innerHTML = inventar.join(", ") + ".";
+    nameRef.innerText = spaceShip.spaceshipName;
+    lifeRef.innerText = spaceShip.life;
+    goldRef.innerText = spaceShip.gold;
+    reparaturSetsdRef.innerText = spaceShip.repairKits;
+    inventarRef.innerHTML = spaceShip.inventar.join(", ") + ".";
 }
 
 function takeDamage() {
@@ -37,9 +33,9 @@ function takeDamage() {
         return;
     }
     else {
-        life = life - Number(damageRef.value);
-        if (life <= 0) {
-            lifeRef.classList.add("game-over");
+        spaceShip.life = spaceShip.life - Number(damageRef.value);
+        if (spaceShip.life <= 0) {
+            spaceShip.lifeRef.classList.add("game-over");
             errorReporterRef.value = 'GAME OVER';
         }
     }
@@ -52,12 +48,12 @@ function buyRepairKit() {
         errorReporterRef.value = 'Ungültige Angabe.';
         return;
     }
-    if (gold >= totalRef.value) {
-        gold -= totalRef.value;
-        repairKits += Number(totalRef.value);
+    if (spaceShip.gold >= totalRef.value) {
+        spaceShip.gold -= totalRef.value;
+        spaceShip.repairKits += Number(totalRef.value);
 
         for (let index = Number(totalRef.value); index > 0; index--) {
-            inventar.push("Reparaturset");
+            spaceShip.inventar.push("Reparaturset");
         }
 
     }
@@ -70,9 +66,9 @@ function buyRepairKit() {
 
 function useRepairKit() {
 
-    if (inventar.includes("Reparaturset")) {
-        repairKits -= 1;
-        inventar.splice(inventar.indexOf("Reparaturset"), 1);
+    if (spaceShip.inventar.includes("Reparaturset")) {
+        spaceShip.repairKits -= 1;
+        spaceShip.inventar.splice(spaceShip.inventar.indexOf("Reparaturset"), 1);
     } else {
         errorReporterRef.value = 'Du hast nicht genug Reparaturset.';
     }
@@ -85,10 +81,10 @@ function buySchild() {
         errorReporterRef.value = 'Ungültige Angabe.';
         return;
     }
-    if (gold >= amount) {
+    if (spaceShip.gold >= amount) {
         for (let index = amount; index > 0; index--) {
-            inventar.push("Schild");
-            gold -= 1;
+            spaceShip.inventar.push("Schild");
+            spaceShip.gold -= 1;
         }
     }
     else {
