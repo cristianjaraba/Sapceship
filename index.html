@@ -11,7 +11,7 @@
 </head>
 
 <body onload="rendereStatus()">
-    <h1>Spaceship</h1>
+    <h2>Spaceship</h2>
     <div class="table-container">
         <table>
             <tr>
@@ -35,11 +35,21 @@
             <td id="data-inventar"></td>
         </tr>
         </table>
-        <div class="buttons_container">
+        <table>
+            <tr>
+            <th>Gegnersname:</th>
+            <td id="data-enemy-name">________</td>
+        </tr>
+        <tr>
+            <th>Leben:</th>
+            <td id="data-enemy-life">0</td>
+        </tr>
+        </table>        
+    </div>
+    <div class="buttons_container">
             <button onclick="saveToLocalStorage()">Speichern</button>
             <button onclick="getFromLocalStorage()">Laden</button>
             <button onclick="rendereStatus()">Rendere Status</button>
-        </div>
     </div>
     <div class="functions-container">
         <div class="function">

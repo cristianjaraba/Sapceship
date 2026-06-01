@@ -8,6 +8,11 @@ let spaceShip = {
    "inventar" : [] 
 }
 
+let enemy = {
+    "enemyName": "Bananen Mixer",
+    "life": 5
+}
+
 /* Funktionen */
 
 const nameRef = document.getElementById("data-name");
@@ -17,6 +22,9 @@ const reparaturSetsdRef = document.getElementById("data-reparatursets");
 const reporterRef = document.getElementById("reporter");
 const schildRef = document.getElementById("schild");
 const inventarRef = document.getElementById("data-inventar");
+
+const enemyNameRef = document.getElementById("data-enemy-name");
+const enemyLifeRef = document.getElementById("data-enemy-life");
 
 function saveToLocalStorage() {
     localStorage.setItem("mySpaceship", JSON.stringify(spaceShip));
@@ -34,6 +42,11 @@ function rendereStatus() {
     goldRef.innerText = spaceShip.gold;
     reparaturSetsdRef.innerText = spaceShip.repairKits;
     inventarRef.innerHTML = spaceShip.inventar.join(", ") + ".";
+    rendereEnemyStatus();
+}
+function rendereEnemyStatus() {
+    enemyNameRef.innerText = enemy.enemyName;
+    enemyLifeRef.innerText = enemy.life;
 }
 
 function takeDamage() {
