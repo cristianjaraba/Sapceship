@@ -75,22 +75,41 @@ function getProtectionsUsages(spaceshipDamageBeforeSchild, protections) {
     return protectionUsages;
 }
 
+function createNewEnemy() {
+    let enemyNames = ["Mr X", "Banenen Mixer II", "The Enemy"];
+    let enemyRandomName = enemyNames[Math.floor((Math.random() * enemyNames.length))];
+    return {
+        "enemyName": enemyRandomName,
+        "life": 5
+    }
+}
+
+function generateRandomGoldAmount() {
+    let randomGold = Math.floor(Math.random() * 10 + 1);
+    spaceShip.gold = randomGold;
+    rendereStatus();
+}
+
 function showMessageAfterDamage(spaceshipDamageBeforeSchild, protections, spaceshipDamageAfterSchild, protectionUsages, enemyDamage) {
-            reporterRef.value += `${enemy.enemyName} wollte ${spaceShip.spaceshipName} erstmal ${spaceshipDamageBeforeSchild} Leben nehmmen.
+    reporterRef.value += `${enemy.enemyName} wollte ${spaceShip.spaceshipName} erstmal ${spaceshipDamageBeforeSchild} Leben nehmmen.
             ${spaceShip.spaceshipName} hatte ${protections} Schild(er) und deswegen wurden ihm ${spaceshipDamageAfterSchild} Leben genommen.
         ${spaceShip.spaceshipName} hat ${protectionUsages} Schild(er) benutzt.`;
-            reporterRef.value += `\n${enemy.enemyName} wurde(n) ${enemyDamage} Leben genommen.`;
-            if (enemy.life <= 0) {
-                enemy.life = 0;
-                enemyLifeRef.classList.add("game-over");
-                reporterRef.value += '\nGAME OVER für den Genger.';
-            }
-            if (spaceShip.life <= 0) {
-                spaceShip.life = 0;
-                lifeRef.classList.add("game-over");
-                reporterRef.value += '\nGAME OVER für das Spacheship.';
-            }
-        }
+    reporterRef.value += `\n${enemy.enemyName} wurde(n) ${enemyDamage} Leben genommen.`;
+    if (enemy.life <= 0) {
+        enemy.life = 0;
+        // enemyLifeRef.classList.add("game-over");
+        reporterRef.value += '\nGAME OVER für den Genger.';
+        enemy = createNewEnemy();
+        rendereEnemyStatus();
+        generateRandomGoldAmount();
+
+    }
+    if (spaceShip.life <= 0) {
+        spaceShip.life = 0;
+        lifeRef.classList.add("game-over");
+        reporterRef.value += '\nGAME OVER für das Spacheship.';
+    }
+}
 
 function takeDamage() {
     reporterRef.value = '';
@@ -104,7 +123,7 @@ function takeDamage() {
         let spaceshipDamageBeforeSchild = Math.floor((Math.random() * 4) + 1);
         let protections = getProtections();//prüft ob das Spaceshift Schilder hat
         let protectionUsages = getProtectionsUsages(spaceshipDamageBeforeSchild, protections);//berechnet die Schilder, die benutzt werden sollen und
-                                                      //substrahiert die Menge aus dem Inventar
+        //substrahiert die Menge aus dem Inventar
         let spaceshipDamageAfterSchild = spaceshipDamageBeforeSchild - protections;
         if (spaceshipDamageAfterSchild < 0) {
             spaceshipDamageAfterSchild = 0;
