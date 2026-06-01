@@ -108,6 +108,7 @@ function showMessageAfterDamage(spaceshipDamageBeforeSchild, protections, spaces
         spaceShip.life = 0;
         lifeRef.classList.add("game-over");
         reporterRef.value += '\nGAME OVER für das Spacheship.';
+        disableButtons();
     }
 }
 
@@ -188,3 +189,9 @@ function buySchild() {
     rendereStatus();
 }
 
+function disableButtons() {
+    const buttons = document.querySelectorAll("button");
+    for (let button of buttons) {
+        button.onclick = null;
+    }
+}
